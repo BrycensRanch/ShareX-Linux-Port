@@ -94,7 +94,6 @@ public class SnapX
 
     internal static RootConfiguration Settings { get; set; } = new();
 
-    internal static IConfiguration Configuration { get; set; }
     internal static TaskSettings DefaultTaskSettings { get; set; }
     internal static UploadersConfig UploadersConfig { get; set; }
     internal static HotkeysConfig HotkeysConfig { get; set; }
