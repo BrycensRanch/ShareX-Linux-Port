@@ -25,7 +25,6 @@ class Build : NukeBuild
     ///   - JetBrains Rider            https://nuke.build/rider
     ///   - Microsoft VisualStudio     https://nuke.build/visualstudio
     ///   - Microsoft VSCode           https://nuke.build/vscode
-
     public static int Main() => Execute<Build>(x => x.Compile);
 
     [Parameter("Configuration to build - Default is 'Debug' (local) or 'Release' (server)")]
@@ -96,7 +95,6 @@ class Build : NukeBuild
             DotNetClean();
             OutputDirectory.CreateOrCleanDirectory();
             Tarballdir.CreateOrCleanDirectory();
-
         });
 
     Target Restore => _ => _
@@ -107,7 +105,6 @@ class Build : NukeBuild
                 DotNetRestore(s => s
                     .SetProjectFile(project));
             }
-
         });
 
     Target Compile => _ => _
@@ -137,7 +134,6 @@ class Build : NukeBuild
 
             if (ProjectsToBuild.Any(projectName => projectName.Contains("NativeMessagingHost")))
             {
-
                 var projectOutput = Path.Combine(OutputDirectory, NMHassemblyName);
 
                 var exeProjects = projectsThatWereBuilt
