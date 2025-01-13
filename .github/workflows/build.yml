@@ -44,7 +44,7 @@ jobs:
         with:
           global-json-file: global.json
       - name: Cache .NET NuGet packages
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: |
             ~/.nuget/packages
