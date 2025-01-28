@@ -16,7 +16,6 @@ public class App : Application
     public SnapX.Core.SnapX SnapX { get; set; }
     public override void Initialize()
     {
-
         SnapX = new SnapX.Core.SnapX();
         AvaloniaXamlLoader.Load(this);
         AppDomain.CurrentDomain.UnhandledException += (Sender, Args) =>
@@ -35,27 +34,21 @@ public class App : Application
         {
             RequestedThemeVariant = ThemeVariant.Dark;
         }
-
     }
 
     private void ShowErrorDialog(string title, Exception ex)
     {
-
         // Create the dialog content with a button
         var stackPanel = new StackPanel
         {
             Orientation = Orientation.Vertical,
             Spacing = 3,
-
-
         };
         var buttonPanel = new StackPanel
         {
             Orientation = Orientation.Horizontal,
             Spacing = 5,
             HorizontalAlignment = HorizontalAlignment.Right,
-
-
         };
 
         stackPanel.Children.Add(new SelectableTextBlock
@@ -239,7 +232,6 @@ public class App : Application
             var Window = new MainView();
             Window.Show();
             desktop.MainWindow = Window;
-
         }
         else if (ApplicationLifetime is ISingleViewApplicationLifetime singleView)
         {
