@@ -1015,9 +1015,9 @@ checksum = "271414315aff87387382ec3d271b52d7ae78726f5d44ac98b4f4030c91880486"
 
 [[package]]
 name = "xcap"
-version = "0.3.1"
+version = "0.3.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e20065509e7c33acead3aba44aea63ab617c1439f924ad77d862458ca90227b5"
+checksum = "394c35a2cde12a79871e4230b9366ae6f4562d61b787341a50c28612359b78f5"
 dependencies = [
  "dbus",
  "image",
