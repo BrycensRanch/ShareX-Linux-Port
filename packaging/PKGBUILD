@@ -1,0 +1,103 @@
+# Maintainer: Brycen Granville <brycengranville@outlook.com>
+pkgbase=snapx
+pkgname=(snapx snapx-gtk snapx-ui)
+pkgver=0.1.0
+pkgrel=1
+pkgdesc="Screenshot tool that handles images, text, and video (fork of ShareX)"
+arch=('x86_64' 'aarch64')
+url="https://github.com/BrycensRanch/SnapX"
+license=('GPL-3.0-or-later')
+makedepends=(
+    'git'
+    'dotnet-sdk>=9.0'
+    'clang'
+    'gtk4'
+    'libx11'
+    'libxrandr'
+    'libxcb'
+    'dbus'
+    'zlib'
+)
+
+source=("$pkgbase::git+https://github.com/BrycensRanch/SnapX.git")
+sha256sums=('SKIP')
+
+build() {
+    cd "$pkgbase"
+    export VERSION=$pkgver
+    ./build.sh --configuration Release
+}
+
+check() {
+    cd "$pkgbase"
+    Output/snapx/snapx --version
+}
+
+package_snapx() {
+    depends=(
+        'ffmpeg'
+        'curl'
+        'fontconfig'
+        'freetype2'
+        'openssl'
+        'icu'
+        'at'
+        'sudo'
+        'libxrandr'
+        'libxcb'
+        'dbus'
+    )
+    
+    cd "$pkgbase"
+    ./build.sh install --prefix /usr --dest-dir "${pkgdir}" --skip compile
+    
+    # Удаляем файлы, которые принадлежат другим пакетам
+    rm -f "${pkgdir}/usr/bin/snapx-gtk"
+    rm -f "${pkgdir}/usr/bin/snapx-ui"
+    
+    # Install license
+    install -Dm644 LICENSE.md "${pkgdir}/usr/share/licenses/${pkgbase}/LICENSE"
+}
+
+package_snapx-gtk() {
+    pkgdesc="SnapX GTK4 UI"
+    depends=('snapx' 'gtk4')
+    
+    cd "$pkgbase"
+    ./build.sh install --prefix /usr --dest-dir "${pkgdir}" --skip compile
+    
+    # Оставляем только файлы для GTK UI
+    mkdir -p "${pkgdir}/usr/bin"
+    mv "${pkgdir}/usr/bin/snapx-gtk" "${pkgdir}/usr/bin/"
+    rm -rf "${pkgdir}/usr/lib"
+    rm -rf "${pkgdir}/usr/share"
+    rm -f "${pkgdir}/usr/bin/snapx"
+    rm -f "${pkgdir}/usr/bin/snapx-ui"
+    
+    # Install license
+    install -Dm644 LICENSE.md "${pkgdir}/usr/share/licenses/snapx-gtk/LICENSE"
+}
+
+package_snapx-ui() {
+    pkgdesc="SnapX Avalonia-based UI (works best on X11)"
+    depends=('snapx')
+    
+    cd "$pkgbase"
+    ./build.sh install --prefix /usr --dest-dir "${pkgdir}" --skip compile
+    
+    # Оставляем только файлы для Avalonia UI
+    mkdir -p "${pkgdir}/usr/bin"
+    mv "${pkgdir}/usr/bin/snapx-ui" "${pkgdir}/usr/bin/"
+    rm -rf "${pkgdir}/usr/lib"
+    rm -f "${pkgdir}/usr/bin/snapx"
+    rm -f "${pkgdir}/usr/bin/snapx-gtk"
+    
+    # Install desktop and metainfo files
+    install -Dm644 "packaging/usr/share/applications/io.github.BrycensRanch.SnapX.desktop" \
+        "${pkgdir}/usr/share/applications/io.github.BrycensRanch.SnapX.desktop"
+    install -Dm644 "packaging/usr/share/metainfo/io.github.BrycensRanch.SnapX.metainfo.xml" \
+        "${pkgdir}/usr/share/metainfo/io.github.BrycensRanch.SnapX.metainfo.xml"
+    
+    # Install license
+    install -Dm644 LICENSE.md "${pkgdir}/usr/share/licenses/snapx-ui/LICENSE"
+} 
