@@ -684,7 +684,7 @@ public static class TaskHelpers
         using var all = new PaddleOcrAll(model, PaddleDevice.Openblas()) {
             AllowRotateDetection = false,
             Enable180Classification = false,
-        };;
+        };
         // Load local file by following code:
         // using (Mat src2 = Cv2.ImRead(@"C:\test.jpg"))
         DebugHelper.WriteLine($"OCR image bytes: {ms.Length}");
@@ -1077,7 +1077,6 @@ public static class TaskHelpers
     {
         if (SnapX.Settings.DisableUpload)
         {
-
             return false;
         }
 
